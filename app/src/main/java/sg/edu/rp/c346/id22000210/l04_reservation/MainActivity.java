@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     //Declaring the Field Variables
@@ -40,29 +41,57 @@ public class MainActivity extends AppCompatActivity {
         reset = findViewById(R.id.reset_button);
 
 
+        //setting default date and time
+        dp.updateDate(2020,5,1); //Month starts from '0'
+        tp.setHour(19);
+        tp.setMinute(30);
+
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Code for the action (Gets the text from EditText)
-                String stringResponse = nameEdit.getText().toString();
-                // Gets the ID of the checked RadioButton
-                int checkedRadioId = smoking.getCheckedRadioButtonId();
-                //Declare a variable 'say' to hold the string
-                String smokeOutput;
-                if(checkedRadioId == R.id.smoking){
-                    smokeOutput = "Area: Smoking";
+                // Getting the input values
+                String name = nameEdit.getText().toString();
+                String phone = phoneEdit.getText().toString();
+                String pax = paxEdit.getText().toString();
+                int smokingArea = smoking.getCheckedRadioButtonId();
+                int day = dp.getDayOfMonth();
+                int month = dp.getMonth();
+                int year = dp.getYear();
+                int hour = tp.getHour();
+                int minute = tp.getMinute();
 
-                }
-                else{
-                    smokeOutput = "Area: Non-Smoking";
 
-                }
+                //Creating Reservation Information, 'reservationInfo' holds the strings
+                String reservationInfo = "Name: " + name + "\nPhone: " + phone + "\nPax: " + pax +
+                        "\nSmoking Area: " + smokingArea +
+                        "\nDate of Reservation: " + day + "/" + month + "/" + year +
+                        "\n Time of Reservation: " + hour + ":" + minute;
 
-                tvDisplay.setText(displayText);
+                //Displaying the reservation information
+                tvDisplay.setText(reservationInfo);
+
+                //Creating a Toast message to inform users about the reservation confirmation
+                Toast.makeText(MainActivity.this, "Reservation Confirmed!", Toast.LENGTH_LONG).show();
             }
         });
 
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Actions to reset input fields and selections
+                nameEdit.setText("");
+                phoneEdit.setText("");
+                paxEdit.setText("");
+                smoking.check(R.id.smoking);
+                dp.updateDate(2020, 5, 1);
+                tp.setHour(19);
+                tp.setMinute(30);
 
+                //To clear the TextView information display
+                tvDisplay.setText("");
+            }
+        });
 
     }
 }
