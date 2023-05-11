@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
     //Declaring the Field Variables
@@ -37,6 +38,29 @@ public class MainActivity extends AppCompatActivity {
         tp = findViewById(R.id.timePicker);
         confirm = findViewById(R.id.confirm_button);
         reset = findViewById(R.id.reset_button);
+
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Code for the action (Gets the text from EditText)
+                String stringResponse = nameEdit.getText().toString();
+                // Gets the ID of the checked RadioButton
+                int checkedRadioId = smoking.getCheckedRadioButtonId();
+                //Declare a variable 'say' to hold the string
+                String smokeOutput;
+                if(checkedRadioId == R.id.smoking){
+                    smokeOutput = "Area: Smoking";
+
+                }
+                else{
+                    smokeOutput = "Area: Non-Smoking";
+
+                }
+
+                tvDisplay.setText(displayText);
+            }
+        });
 
 
 
